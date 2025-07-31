@@ -69,4 +69,46 @@ REFERENCES TB_CATEGORIAS (CODIGO_CA);
 CREATE TABLE TB_ALMACENES(
     CODIGO_AL NUMBER(2,0) GENERATED ALWAYS AS IDENTITY, 
     DESCRIPTION_AL VARCHAR2(30)
-)
+);
+
+
+INSERT INTO TB_CATEGORIAS
+            (CODIGO_CA
+            ,DESCRIPCION) 
+      VALUES(3
+            ,'EVENTOS'
+            );
+            
+INSERT INTO TB_MEDIDAS
+            (CODIGO_MD
+            ,ABREBIATURA_ME
+            ,DESCRIPCION_ME) 
+      VALUES(1
+            ,'UND'
+            ,'UNIDADES'
+            );
+            
+INSERT INTO TB_MEDIDAS
+            (CODIGO_MD
+            ,ABREBIATURA_ME
+            ,DESCRIPCION_ME) 
+      VALUES(4
+            ,'LTS'
+            ,'LITROS'
+            );
+            
+            
+INSERT INTO TB_ARTICULOS
+            (CODIGO_AR
+            ,DESCRIPCION_AR
+            ,MARCA_AR
+            ,CODIGO_ME
+            ,CODIGO_CA) 
+      VALUES(1
+            ,'COMPUTADOR'
+            ,'ASUS'
+            ,1
+            ,3
+            );
+            
+            

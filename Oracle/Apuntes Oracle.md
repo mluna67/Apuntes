@@ -48,3 +48,18 @@ CREATE TABLE TB_ALMACENES(
 )
 
 ```
+## Isertar un nuevo dato
+``` sql 
+INSERT INTO TB_ARTICULOS
+            (CODIGO_AR
+            ,DESCRIPCION_AR
+            ,MARCA_AR
+            ,CODIGO_ME
+            ,CODIGO_CA) 
+      VALUES(1
+            ,'COMPUTADOR'
+            ,'ASUS'
+            ,1
+            ,3
+            );
+```
