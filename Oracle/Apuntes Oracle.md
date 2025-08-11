@@ -89,3 +89,19 @@ BEGIN
 
 END;
 ```
+## Pedir datos al usuario
+Lo que ponemos despues del := & es para definir como verá el usuario la solicitud de ese dato
+``` sql
+DECLARE
+
+    v_opl NUMBER(2) := &operando1;
+    v_op2 NUMBER(2) := &operando2;
+    v_sum NUMBER(3);
+
+
+BEGIN
+    v_sum := v_opl + v_op2;
+    dbms_output.put_line(v_opl ||' + ' || v_op2 || ' = ' || v_sum);
+
+END;
+```
