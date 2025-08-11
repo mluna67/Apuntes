@@ -125,3 +125,26 @@ BEGIN
 END;
 
 ```
+
+## If
+
+``` sql
+
+DECLARE
+    v_n1 Number(2):= 10;
+    v_n2 Number(2):= 4;
+    v_n3 Number(2):= 3;
+BEGIN
+
+    IF v_n1 >= v_n2 AND v_n1>= v_n3
+        THEN
+            dbms_output.put_line(v_n1 || ' es el mayor');
+        ELSIF v_n2>= v_n3
+            THEN
+                dbms_output.put_line(v_n2 || ' es el mayor');
+        ELSE
+            dbms_output.put_line(v_n3 || ' es el mayor');
+        END IF;
+
+END;
+```
