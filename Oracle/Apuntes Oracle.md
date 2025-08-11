@@ -72,3 +72,20 @@ BEGIN
     dbms_output.put_line('Hola mundo');
 END;
 ```
+
+## Uso de Vairables
+Para imprimir una variable debo usar el ||
+``` sql 
+DECLARE
+
+    v_num NUMBER(2) := 10;
+    v_cadena VARCHAR(10) := 'Marco';
+    v_fecha DATE := SYSDATE;
+
+BEGIN
+    dbms_output.put_line('El valor de v_num es ' || v_num);
+    dbms_output.put_line('El valor de v_cadena es ' || v_cadena);
+    dbms_output.put_line('El valor de v_fecha es ' || v_fecha);
+
+END;
+```

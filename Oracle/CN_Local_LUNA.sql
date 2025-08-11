@@ -111,4 +111,8 @@ INSERT INTO TB_ARTICULOS
             ,3
             );
             
+BEGIN
+    dbms_output.put_line('Hola mundo');
+END;
+            
             
