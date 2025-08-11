@@ -63,3 +63,12 @@ INSERT INTO TB_ARTICULOS
             ,3
             );
 ```
+
+## PLSQL
+
+## Bloques anonimos
+``` sql 
+BEGIN
+    dbms_output.put_line('Hola mundo');
+END;
+```
