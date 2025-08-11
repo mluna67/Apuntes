@@ -148,3 +148,65 @@ BEGIN
 
 END;
 ```
+
+## Secuencias
+Llevan un control sobre los campos incrementales y se definen de la siguiente forma:
+
+``` sql
+CREATE SEQUENCE nombre_secuencia
+    START WITH 1       -- Valor inicial
+    INCREMENT BY 1     -- Paso de incremento
+    NOCACHE            -- No guarda valores en memoria (opcional)
+    NOCYCLE;           -- No reinicia cuando llega al máximo
+```
+Y la secuencia se utilizaría de la siguiente forma:
+``` sql
+INSERT INTO empleados (empleado_id, nombre)
+VALUES (seq_empleados.NEXTVAL, 'Juan Pérez');
+```
+.NEXTVAL ➡ obtiene el siguiente valor disponible.</BR>
+.CURRVAL ➡ devuelve el último valor usado en la sesión actual.
+
+## Triggers
+Se ejecuta automáticamente cuando ocurre un evento en una tabla, vista o a nivel de esquema/base de datos.
+
+```sql
+CREATE OR REPLACE TRIGGER trg_auditar_insert_producto
+AFTER INSERT ON productos
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria_productos (usuario, fecha_evento, operacion, producto_id)
+    VALUES (USER, SYSDATE, 'INSERT', :NEW.id_producto);
+END;
+```
+
+### En eventos DML
+``` BEFORE INSERT ``` → Antes de insertar un registro.</BR>
+``` AFTER INSERT ``` → Después de insertar un registro.</BR>
+``` BEFORE UPDATE ``` → Antes de actualizar.</BR>
+``` AFTER UPDATE ``` → Después de actualizar.</BR>
+``` BEFORE DELETE ``` → Antes de eliminar.</BR>
+``` AFTER DELETE ``` → Después de eliminar.</BR>
+
+### En vistas
+En vez de (``` INSTEAD OF ```) → usados en vistas.
+### En esquemas
+Antes o después de un ``` CREATE TABLE ```
+### En Base de datos
+ej: login, logout, startup, shutdown
+
+### Tambien se pueden combinar las secuencias y los disparadores
+
+ ``` sql
+CREATE OR REPLACE TRIGGER trg_empleados_id
+    BEFORE INSERT ON empleados
+    FOR EACH ROW
+        BEGIN
+            :NEW.empleado_id := seq_empleados.NEXTVAL;
+        END;
+```
+
+Y el insert se haría solo de la siguiente forma
+``` sql
+INSERT INTO empleados (nombre) VALUES ('María López');
+```
