@@ -140,5 +140,21 @@ BEGIN
     dbms_output.put_line(v_opl ||' + ' || v_op2 || ' = ' || v_sum);
 
 END;
+
+DECLARE
+
+    v_nl NUMBER(2) := 10;
+    v_n2 NUMBER(2) := 2;
+
+
+BEGIN
+    
+    dbms_output.put_line('SUMA ' || (v_nl+v_n2));
+    dbms_output.put_line('RESTA ' || (v_nl-v_n2));
+    dbms_output.put_line('MULTIPLICACION ' || (v_nl*v_n2));
+    dbms_output.put_line('DIVISION ' || (v_nl/v_n2));
+    dbms_output.put_line('POTENCIA ' || (v_nl**v_n2));
+
+END;
             
             
