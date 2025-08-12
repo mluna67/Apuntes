@@ -1,6 +1,6 @@
 # Oracle
 
-## Crecion de una tabla nueva
+## Creación de una tabla nueva
 ``` sql
 CREATE TABLE TB_ARTICULOS
             (CODIGO_AR NUMBER(5,0)
@@ -73,7 +73,7 @@ BEGIN
 END;
 ```
 
-## Uso de Vairables
+## Uso de Variables
 Para imprimir una variable debo usar el ||
 ``` sql 
 DECLARE
@@ -148,6 +148,121 @@ BEGIN
 
 END;
 ```
+## Funciones
+Recibe cero o más parámetros, realiza un conjunto de operaciones y devuelve un único valor.
+``` sql
+CREATE OR REPLACE FUNCTION nombre_funcion (param1 DATATYPE, param2 DATATYPE)
+RETURN tipo_retorno
+IS
+    -- Declaración de variables locales
+BEGIN
+    -- Lógica de la función
+    RETURN valor;
+END;
+```
+
+## Tipos
+Es como un molde o plantilla que define qué forma y qué tipo de datos puede contener una variable, parámetro o columna.
+Pueden ser simples, compuestos o orientados a objetos.
+
+### Simples
+Representan un único valor y no contienen otros datos dentro (lo que llamamos variables).
+``` sql
+DECLARE
+    v_nombre VARCHAR2(50);
+    v_edad NUMBER(3);
+BEGIN
+    v_nombre := 'Marco';
+    v_edad := 35;
+    DBMS_OUTPUT.PUT_LINE(v_nombre || ' tiene ' || v_edad || ' años.');
+END;
+```
+### Compuestos
+Contienen varios valores a la vez pueden ser:
+#### Record
+Similar a una fila de una tabla.
+``` sql
+DECLARE
+    TYPE t_empleado IS RECORD (
+        id     NUMBER,
+        nombre VARCHAR2(50),
+        sueldo NUMBER
+    );
+    v_emp t_empleado;
+BEGIN
+    v_emp.id := 1;
+    v_emp.nombre := 'Marco';
+    v_emp.sueldo := 2500;
+    DBMS_OUTPUT.PUT_LINE(v_emp.nombre || ' gana ' || v_emp.sueldo);
+END;
+```
+#### Colecciones
+Similares a un Array
+este es un ejemplo de un VARRAY, que es un Array con tamaño fijo
+``` sql
+DECLARE
+    TYPE t_lista IS VARRAY(5) OF VARCHAR2(50);
+    v_frutas t_lista := t_lista('Manzana', 'Pera', 'Uva');
+BEGIN
+    FOR i IN 1..v_frutas.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(v_frutas(i));
+    END LOOP;
+END;
+```
+
+### Tipos definidos por el usuario (UDT)
+Se comportan como clases en programación.
+</br>
+El siguiente sería un ejemplo de como usarla similar a como se usa en SQL Server:   
+``` sql
+CREATE OR REPLACE TYPE persona_t AS OBJECT (
+    id NUMBER,
+    nombre VARCHAR2(100)
+);
+``` 
+se crea un tipo colección basado en el objeto
+``` sql
+-- Tipo colección de personas
+CREATE OR REPLACE TYPE personas_tab_t AS TABLE OF persona_t;
+``` 
+Para usarlas en PL sería mas o menos así:
+``` sql
+DECLARE
+    v_personas personas_tab_t := personas_tab_t();
+BEGIN
+    -- Agregar registros
+    v_personas.EXTEND(3);
+    v_personas(1) := persona_t(1, 'Marco Aurelio');
+    v_personas(2) := persona_t(2, 'Ana María');
+    v_personas(3) := persona_t(3, 'Carlos López');
+
+    -- Mostrar en consola
+    FOR i IN 1 .. v_personas.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(v_personas(i).id || ' - ' || v_personas(i).nombre);
+    END LOOP;
+END;
+```
+
+Para hacer un select como en sql tocaría definir primero una función que cree los objetos
+``` sql
+CREATE OR REPLACE FUNCTION obtener_personas
+RETURN personas_tab_t PIPELINED
+AS
+BEGIN
+    PIPE ROW(persona_t(1, 'Marco Aurelio'));
+    PIPE ROW(persona_t(2, 'Ana María'));
+    PIPE ROW(persona_t(3, 'Carlos López'));
+    RETURN;
+END;
+```
+
+y el select sería así:
+``` sql 
+SELECT *
+FROM TABLE(obtener_personas);
+``` 
+
+
 
 ## Secuencias
 Llevan un control sobre los campos incrementales y se definen de la siguiente forma:
@@ -209,4 +324,19 @@ CREATE OR REPLACE TRIGGER trg_empleados_id
 Y el insert se haría solo de la siguiente forma
 ``` sql
 INSERT INTO empleados (nombre) VALUES ('María López');
+```
+
+## Vistas Materializadas
+Misma lógica de las vistas normales pero los datos si se almacenan en la base de datos y se puede refrescar periodicamente o manualmente
+``` sql
+CREATE MATERIALIZED VIEW ventas_mensuales
+ BUILD IMMEDIATE --construye la vista al momento de crearla.
+ REFRESH COMPLETE --al actualizar, borra y recalcula todo
+ START WITH SYSDATE
+ NEXT SYSDATE + 30 --refresca cada 30 días (puede ser minutos, horas, etc.).
+ AS
+    SELECT producto
+          ,SUM(cantidad) AS total_vendido
+      FROM ventas
+  GROUP BY producto;
 ```
