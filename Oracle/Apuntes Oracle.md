@@ -1,4 +1,23 @@
 # Oracle
+## Conexión
+En oracle cada conexión nueva es un esquema diferente, por lo tanto si tengo el Usuario "LUNA" no va a poder ver ni gestionar las tablas de "sys", para que un usuario pueda acceder a las tabla de otro se debe dar el permiso
+
+``` sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON tabla_x TO otro_usuario;
+``` 
+Adicional si el rol del usuario no es dba, no va a dejar crear vistas u otras cosas, por lo que desde el usuario sys se le deben otorgar esos permisos
+``` sql
+GRANT CREATE VIEW TO LUNA;
+```
+
+y el otro usuario accedería poniendo el propietario antes de la tabla
+``` sql
+SELECT * FROM LUNA.nombre_tabla;
+```
+O se puede crear un sinonimo para no llamarlo así
+``` sql
+CREATE SYNONYM tabla_x FOR VENTAS_APP.tabla_x;
+```
 
 ## Creación de una tabla nueva
 ``` sql
@@ -440,6 +459,19 @@ CREATE OR REPLACE TRIGGER trg_empleados_id
 Y el insert se haría solo de la siguiente forma
 ``` sql
 INSERT INTO empleados (nombre) VALUES ('María López');
+```
+## Vistas
+Misma lógica de una vista en sql server
+``` sql
+CREATE OR REPLACE VIEW Vista_Facturas_Con_Detalle AS
+SELECT 
+    f.FacturaID,
+    f.Fecha,
+    f.Cliente,
+    SUM(d.Cantidad * d.Precio) AS TotalCalculado
+FROM Facturas f
+JOIN DetalleFactura d ON f.FacturaID = d.FacturaID
+GROUP BY f.FacturaID, f.Fecha, f.Cliente;
 ```
 
 ## Vistas Materializadas
