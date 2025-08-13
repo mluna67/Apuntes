@@ -45,7 +45,16 @@ ALTER TABLE TB_ARTICULOS DROP COLUMN MARCA_AR;
 ``` sql 
 ALTER TABLE TB_ARTICULOS ADD MARCA_AR VARCHAR2(30);
 ```
-
+## Columnas Virtuales
+Son campos calculados, no ocupan espacio físico
+``` sql
+CREATE TABLE productos (
+    producto_id NUMBER,
+    precio_unitario NUMBER,
+    cantidad NUMBER,
+    total_venta AS (precio_unitario * cantidad)
+);
+``` 
 ## Agregar una llave primaria
 ``` sql 
 ALTER TABLE TB_ARTICULOS ADD PRIMARY KEY (CODIGO_AR)
