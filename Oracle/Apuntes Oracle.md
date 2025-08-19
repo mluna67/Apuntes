@@ -176,6 +176,24 @@ BEGIN
 
 END;
 ```
+
+## Case
+Es similar al de SQL Server
+``` sql
+DECLARE
+    v_dia NUMBER := 3;
+    v_nombre_dia VARCHAR2(20);
+BEGIN
+    v_nombre_dia := CASE v_dia
+                        WHEN 1 THEN 'Lunes'
+                        WHEN 2 THEN 'Martes'
+                        WHEN 3 THEN 'Miércoles'
+                        ELSE 'Desconocido'
+                    END;
+    DBMS_OUTPUT.PUT_LINE('Día: ' || v_nombre_dia);
+END;
+
+```
 ## Funciones
 Recibe cero o más parámetros, realiza un conjunto de operaciones y devuelve un único valor.
 ``` sql
