@@ -194,25 +194,51 @@ BEGIN
 END;
 
 ```
-## Case
-Similar al de SQL Server
+
+## Bucles
+Son infinitos si no se les pone la clausula ``` exit ```
 ``` sql
 DECLARE
-    v_dia NUMBER := 3;
-    v_nombre_dia VARCHAR2(20);
+    v_contador NUMBER := 1;
 BEGIN
-    v_nombre_dia := CASE v_dia
-                        WHEN 1 THEN 'Lunes'
-                        WHEN 2 THEN 'Martes'
-                        WHEN 3 THEN 'Miércoles'
-                        ELSE 'Desconocido'
-                    END;
-    DBMS_OUTPUT.PUT_LINE('Día: ' || v_nombre_dia);
+    LOOP
+        DBMS_OUTPUT.PUT_LINE('Iteración: ' || v_contador);
+        v_contador := v_contador + 1;
+        EXIT WHEN v_contador > 5;
+    END LOOP;
 END;
 ```
 
-## Bucles
-//TODO: VOY ACÁ
+## While
+Funciona con un loop interno
+``` sql
+DECLARE
+    v_num NUMBER := 1;
+BEGIN
+    WHILE v_num <= 5 LOOP
+        DBMS_OUTPUT.PUT_LINE('Número: ' || v_num);
+        v_num := v_num + 1;
+    END LOOP;
+END;
+```
+
+## FOR
+Funciona con un loop interno y la secuencia se define con ..
+``` sql
+BEGIN
+    FOR i IN 1..5 LOOP
+        DBMS_OUTPUT.PUT_LINE('Valor de i: ' || i);
+    END LOOP;
+END;
+```
+Tambien se puede hacer descendente
+``` sql
+BEGIN
+    FOR i IN REVERSE 5..1 LOOP
+        DBMS_OUTPUT.PUT_LINE('Valor de i: ' || i);
+    END LOOP;
+END;
+```
 
 ## Funciones
 Recibe cero o más parámetros, realiza un conjunto de operaciones y devuelve un único valor.
