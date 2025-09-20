@@ -561,3 +561,23 @@ CREATE MATERIALIZED VIEW ventas_mensuales
       FROM ventas
   GROUP BY producto;
 ```
+
+## Bulk Collections
+Los Bulk Collections son una característica de Oracle PL/SQL que permite cargar o procesar múltiples filas a la vez (en bloque), en lugar de hacerlo fila por fila.
+
+``` sql
+DECLARE
+    TYPE t_employees IS TABLE OF employees%ROWTYPE;
+    l_employees t_employees;
+BEGIN
+    SELECT * BULK COLLECT INTO l_employees
+    FROM employees
+    WHERE department_id = 10;
+
+    -- Puedes recorrer el array
+    FOR i IN 1 .. l_employees.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(l_employees(i).first_name);
+    END LOOP;
+END;
+
+```
