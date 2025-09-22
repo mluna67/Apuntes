@@ -43,6 +43,7 @@ Agregamos al final del archivo las variables que necesitamos
 # Oracle Environment Variables
 export ORACLE_HOME=/opt/oracle/product/21c/dbhomeXE
 export PATH=$ORACLE_HOME/bin:$PATH
+export ORACLE_SID=XE
 ``` 
 Presiona ``` Esc ```, luego ``` :wq ``` y ``` Enter ``` para guardar los cambios
 
