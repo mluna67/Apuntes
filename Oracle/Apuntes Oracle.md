@@ -471,6 +471,25 @@ public class DetalleFacturaObj
 }
 
 ```
+## Nested Table
+Es similar a un VARRAY pero no tiene limites de tamaño, No garantiza el orden y en la BD se almacena como una tabla separada (heap) con relación al padre
+
+``` sql
+TYPE EMPLEADO IS TABLE OF EMPLOYEES%ROWTYPE;
+
+CREATE TABLE EMPLES
+(
+CODIGO NUMBER,
+DIRECCION VARCHAR2(100),
+DATOS EMPLEADO
+)
+NESTED TABLE DATOS STORE AS TABLA_DATOS;
+/
+
+DESC EMPLES;
+
+SELECT * FROM TAB;
+``` 
 
 ## Secuencias
 Llevan un control sobre los campos incrementales y se definen de la siguiente forma:

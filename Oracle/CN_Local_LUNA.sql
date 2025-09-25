@@ -223,4 +223,49 @@ BEGIN
     insertar_detalle_factura(v_detalles);
     
     SELECT * FROM DETALLE_FACTURA;
-END;     
+END;
+
+CREATE OR REPLACE PROCEDURE sp_Consultar_Empleados_x_Departamento(CodigoD NUMBER)
+IS
+    TYPE V_Empleados IS TABLE OF EMPLOYEES%ROWTYPE INDEX BY PLS_INTEGER;
+    A_Empleados V_Empleados;
+BEGIN
+    SELECT *
+      BULK COLLECT INTO A_Empleados 
+      FROM EMPLOYEES
+      WHERE department_id = CodigoD;
+      
+    FOR i IN 1..A_Empleados.COUNT LOOP
+        dbms_output.put_line(A_Empleados(i).FIRST_NAME || ' ' || A_Empleados(i).LAST_NAME );
+    END LOOP;
+END;
+/
+EXECUTE sp_Consultar_Empleados_x_Departamento(100);
+
+/
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    TYPE vArray1 is VARRAY(10) OF VARCHAR2(50);
+    
+    myArray vArray1 := vArray1('INFORMATICA','MATEMATICAS','BIOLOGIA','LITERATURA');
+BEGIN
+    FOR i IN 1..4
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(myArray(i));
+    END LOOP;
+    
+ DBMS_OUTPUT.PUT_LINE('-----------------------------------------');
+    
+    myArray.EXTEND(2);
+    myarray(5) := 'FISICA';
+    myarray(6) := 'QUIMICA';
+    
+    FOR i IN 1..6
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(myArray(i));
+    END LOOP;
+
+END;
+
