@@ -79,4 +79,42 @@ En la máquina que no tiene el Oracle configurar la conexión de la siguiente ma
 
 <img src="../Images/ConfiguracionSQL.png" alt="Diagrama de conexión" width="500">
 
-Y LISTO ESO ERA TODO :)
+# Conectar a windev
+Para conectar a Windev se debe tener instalado el Oracle Instance client
+
+## Instalación Oracle Instance Client
+Tener en cuenta que nos encontramos en Windows 7 y el Windev corre a 32bits
+
+1) Descargar Oracle instance client versión 11.2.0.4.0
+
+``` https://www.oracle.com/database/technologies/instant-client/microsoft-windows-32-downloads.html ```
+
+2) Descomprimir el archivo en el disco C, usar una ruta facil de refernciar por ejemplo:
+
+``` C:\Oracle\instantclient_11_2 ```
+
+3) Crear una variable de entorno en windows, ir a``` Panel de control > Sistema y seguridad > Sistema > Configuración avanzada del sistema > Variables de entorno``` en la sección de variables del sistema ubicar el Path darle editar y poner la ruta que se definió en el paso anterior (perferiblemente ponerla de primera seguida de ";" )
+
+4) en la ruta definida en el paso 2 crear las siguientes carpetas y archivos:
+   ``` network\admin\tnsnames.ora ```
+   y dentro definir el servicio de la sigueinte manera:
+```
+ ORCL =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = AQUI_VA_LA_IP)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = xepdb1)
+    )
+  )
+  ```
+  5) Reinicia la máquina para que tome los cambios.
+
+  ## Creación del analisis en Windev
+  Crear el analisis desde la opción de nuevo analisis, defina la conexion por medio de Oracle y tenga en cuenta los datos:
+
+  La Fuente de datos es la que definimos en el punto 4 es decir ``` ORCL ```
+
+  <img src="../Images/ConexionWindev.png" alt="Diagrama de conexión" width="500">
+
+LISTO ESO ES TODO -- MERECES UN AUMENTO $$
